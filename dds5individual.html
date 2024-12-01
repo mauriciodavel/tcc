@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rubrica de Avaliação Turma CIB-01 (Individual) </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .rubrica {
+            margin: 20px auto;
+            max-width: 1200px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .criterion {
+            margin-bottom: 15px;
+        }
+        .total-score {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+    </style>
+    <script>
+        function calculateTotal(id) {
+            const scores = document.querySelectorAll(`#${id} .criterion input:checked`);
+            let total = 0;
+            scores.forEach(score => {
+                total += parseFloat(score.value);
+            });
+            document.getElementById(`${id}-total`).textContent = `Total: ${total.toFixed(1)} pts`;
+        }
+
+        function saveToCSV() {
+            const rows = [];
+            const evaluators = document.querySelectorAll('.rubrica');
+            evaluators.forEach(evaluator => {
+                const projectTitle = evaluator.querySelector('.project-title').value || "Sem Título";
+                const evaluatorName = evaluator.querySelector('.evaluator-name').value || "Sem Nome";
+                const studentName = evaluator.querySelector('.student-name').value || "Sem Nome";
+                const scores = Array.from(evaluator.querySelectorAll('.criterion input:checked')).map(input => input.value);
+                const total = evaluator.querySelector('.total-score').textContent.split(": ")[1];
+                rows.push([projectTitle, evaluatorName, studentName, ...scores, total]);
+            });
+
+            const csvContent = "data:text/csv;charset=utf-8," +
+                ["Título do Projeto,Avaliador,Aluno Avaliado,Participação,Domínio,Comunicação,Postura,Capacidade,Total\n", ...rows.map(row => row.join(','))].join("\n");
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "rubrica_avaliacao.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-4"><b>Rubrica de Avaliação de Projetos Turma AIT-DDS-5 (Individual)</b></h1>
+
+        <div class="rubrica" id="evaluator1">
+            <!-- Título do Projeto -->
+            <div class="mb-3">
+                <label for="project-title" class="form-label"><b>Título do Projeto:</b></label>
+                <select class="form-select project-title">
+                    <option value="" disabled selected>Selecione...</option>
+                   <!-- <option value="Projeto 1">Cibersegurança Eficiente: Monitoramento e Conscientização</option>
+                    <option value="Projeto 2">Gestão e Monitoramento de Infraestrutura de Rede Corporativa com Zabbix</option>
+                    <option value="Projeto 3">Implementação de Proteção em Redes Corporativas</option> -->
+                    <option value="Projeto 3">BIRD HOUSE - GERENCIAMENTO DE HOSPEDAGEM</option>
+                    <option value="Projeto 3">HIVE - REPÚBLICA UNIVERSITÁRIA</option>
+                    <option value="Projeto 3">TREINOFFER - PLATAFORMA DE TREINAMENTO</option>
+                    <option value="Projeto 3">VIVER BEM MAIS - CONEXÃO DE IDOSO COM CUIDADOR</option>
+                </select>
+            </div>
+
+            <!-- Nome do Avaliador -->
+            <div class="mb-3">
+                <label for="evaluator-name" class="form-label"><b>Nome do Avaliador:</b></label>
+                <select class="form-select evaluator-name">
+                    <option value="" disabled selected>Selecione...</option>
+                    <option value="Avaliador 6">Ramon de Hoanda Nascimento</option>
+                    <option value="Avaliador 2">Gregory Veloso Silva</option>
+                    <option value="Avaliador 5">Pietra Lopes de Medeiros</option>
+                    <option value="Avaliador 1">Josanio de Souza Pereira</option>
+                    <option value="Avaliador 3">Renisson Rodrigues de Souza</option>
+                   <!-- <option value="Avaliador 4">Davi Moreira</option> -->
+                </select>
+            </div>
+
+            <!-- Aluno Avaliado -->
+            <div class="mb-3">
+                <label for="student-name" class="form-label"><b> Aluno Avaliado:</b></label>
+                <select class="form-select student-name">
+                    <option value="" disabled selected>Selecione...</option>
+                    <option value="Aluno 1">AMANDA XAVIER NASCIMENTO</option>
+                    <option value="Aluno 2">ANNA JULYA DOS SANTOS DA SILVA</option>
+                    <option value="Aluno 3">AYMAR ANTONIO DA SILVA</option>
+                    <option value="Aluno 4">DANIEL KALEB DE OLIVEIRA ALVES MOREIRA</option>
+                    <option value="Aluno 5">EMANOEL VITOR VENTURA ATANAZIO</option>
+                    <option value="Aluno 6">GABRIEL DE ASSIS SPERANDIO</option>
+                    <option value="Aluno 7">HELOISA RANGEL GUIMARÃES</option>
+                    <option value="Aluno 8">ISAAC LUCCA DE PAULA BARBARA</option>
+                    <option value="Aluno 9">JOÃO PEDRO COSTA SILVA</option>
+                    <option value="Aluno 10">MARCO ANTONIO SANTOS MEDEIROS</option>
+                    <option value="Aluno 11">MATHEUS SARTI BRUNELLI</option>
+                    <option value="Aluno 12">PIETRO GABRIEL HERINGER MENEZES</option>
+                    <option value="Aluno 13">SAMARA DA SILVA RIBEIRO</option>
+                    <option value="Aluno 14">SARAH MONTEIRO DUQUE</option>
+                    <option value="Aluno 15">VITOR VARGAS PARAJARA</option>
+                 <!--   <option value="Aluno 16">WELLEN DA COSTA SILVA</option>
+                    <option value="Aluno 16">YASMIN GONÇALVES NASCIMENTO</option> -->
+                </select>
+            </div>
+
+            <!-- Critérios -->
+            <div class="criterion">
+                <label><b>Participação na Apresentação</b> </label>
+                <div>
+                    <input type="radio" name="participation" value="2.5" onclick="calculateTotal('evaluator1')"> 2,5 pts - Excelente: Participou ativamente em várias partes da apresentação.<br>
+                    <input type="radio" name="participation" value="1.5" onclick="calculateTotal('evaluator1')"> 1,5 pts - Bom: Participou de forma clara, com envolvimento moderado.<br>
+                    <input type="radio" name="participation" value="1" onclick="calculateTotal('evaluator1')"> 1 pt - Regular: Contribuiu em partes, mas sem envolvimento contínuo.<br>
+                    <input type="radio" name="participation" value="0.5" onclick="calculateTotal('evaluator1')"> 0,5 pts - Muito Fraco: Participação mínima, sem contribuição relevante.<br>
+                    <input type="radio" name="participation" value="0" onclick="calculateTotal('evaluator1')"> 0 pts - Não participou: O aluno não participou da apresentação.
+                </div>
+            </div>
+
+            <!-- Domínio do Conteúdo -->
+            <div class="criterion">
+                <label><b>Domínio do Conteúdo</b> </label>
+                <div>
+                    <input type="radio" name="content" value="2.5" onclick="calculateTotal('evaluator1')"> 2,5 pts - Excelente: Demonstra profundo domínio do conteúdo, respondendo com confiança.<br>
+                    <input type="radio" name="content" value="1.5" onclick="calculateTotal('evaluator1')"> 1,5 pts - Bom: Demonstra bom domínio, com explicações claras.<br>
+                    <input type="radio" name="content" value="1" onclick="calculateTotal('evaluator1')"> 1 pt - Regular: Conhecimento superficial ou respostas vagas.<br>
+                    <input type="radio" name="content" value="0.5" onclick="calculateTotal('evaluator1')"> 0,5 pts - Muito Fraco: Demonstrou pouco ou nenhum conhecimento do conteúdo apresentado.<br>
+                    <input type="radio" name="content" value="0" onclick="calculateTotal('evaluator1')"> 0 pts - Não participou: Não demonstrou nenhum domínio do conteúdo.
+                </div>
+            </div>
+
+            <!-- Comunicação e Clareza -->
+            <div class="criterion">
+                <label><b>Comunicação e Clareza</b> </label>
+                <div>
+                    <input type="radio" name="communication" value="2.0" onclick="calculateTotal('evaluator1')"> 2,5 pts - Excelente: Expressou-se com clareza, fluência e boa articulação.<br>
+                    <input type="radio" name="communication" value="1.5" onclick="calculateTotal('evaluator1')"> 1,5 pts - Bom: Comunicação clara, mas com algumas dificuldades pontuais.<br>
+                    <input type="radio" name="communication" value="1" onclick="calculateTotal('evaluator1')"> 1 pt - Regular: Comunicação pouco clara, com algumas falhas de entendimento.<br>
+                    <input type="radio" name="communication" value="0.5" onclick="calculateTotal('evaluator1')"> 0,5 pts - Muito Fraco: Falta de clareza e organização nas ideias.<br>
+                    <input type="radio" name="communication" value="0" onclick="calculateTotal('evaluator1')"> 0 pts - Não participou: Não se comunicou durante a apresentação.
+                </div>
+            </div>
+
+            <!-- Postura e Trabalho em Equipe -->
+            <div class="criterion">
+                <label><b>Postura e Trabalho em Equipe</b> </label>
+                <div>
+                    <input type="radio" name="posture" value="1.5" onclick="calculateTotal('evaluator1')"> 1,5 pts - Excelente: Postura excelente e colaboração plena com o grupo.<br>
+                    <input type="radio" name="posture" value="0.9" onclick="calculateTotal('evaluator1')"> 0,9 pts - Bom: Boa postura e colaboração, com alguns momentos de falta de alinhamento.<br>
+                    <input type="radio" name="posture" value="0.6" onclick="calculateTotal('evaluator1')"> 0,6 pts - Regular: Colaborou pouco e demonstrou pouco entrosamento com o grupo.<br>
+                    <input type="radio" name="posture" value="0.3" onclick="calculateTotal('evaluator1')"> 0,3 pts - Muito Fraco: Falta de postura e colaboração mínima.<br>
+                    <input type="radio" name="posture" value="0" onclick="calculateTotal('evaluator1')"> 0 pts - Não colaborou: Não demonstrou postura nem colaborou.
+                </div>
+            </div>
+
+            <!-- Capacidade de Solução de Problemas -->
+            <div class="criterion">
+                <label><b>Capacidade de Solução de Problemas</b> </label>
+                <div>
+                    <input type="radio" name="problem-solving" value="1.5" onclick="calculateTotal('evaluator1')"> 1,5 pts - Excelente: Resolveu problemas de forma eficiente e criativa.<br>
+                    <input type="radio" name="problem-solving" value="0.9" onclick="calculateTotal('evaluator1')"> 0,9 pts - Bom: Resolveu problemas com sucesso, embora sem criatividade.<br>
+                    <input type="radio" name="problem-solving" value="0.6" onclick="calculateTotal('evaluator1')"> 0,6 pts - Regular: Resolveu poucos problemas ou apresentou soluções limitadas.<br>
+                    <input type="radio" name="problem-solving" value="0.3" onclick="calculateTotal('evaluator1')"> 0,3 pts - Muito Fraco: Pouca habilidade em resolver problemas.<br>
+                    <input type="radio" name="problem-solving" value="0" onclick="calculateTotal('evaluator1')"> 0 pts - Não solucionou: Não apresentou capacidade de resolver problemas.
+                </div>
+            </div>
+
+            <!-- Total -->
+            <div class="total-score" id="evaluator1-total">Total: 0 pts</div>
+        </div>
+
+        <button class="btn btn-primary mt-4" onclick="saveToCSV()">Salvar em CSV</button>
+    </div>
+</body>
+</html>
